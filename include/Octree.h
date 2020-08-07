@@ -56,14 +56,14 @@ struct Vec3
 	{
 		return Vec3(x + other.x, y + other.y, z + other.z);
 	}
-    Vec3& operator+=(Vec3&& other)
-    {
+	Vec3& operator+=(Vec3&& other)
+   {
         x += other.x;
         y += other.y;
         z += other.z;
         return *this;
     }
-    Vec3& operator+=(Vec3& other)
+Vec3& operator+=(Vec3& other)
     {
         x += other.x;
         y += other.y;
@@ -140,7 +140,7 @@ struct OctreeNode
 {
 	Vec3 position; // used for insertions
 	Vec3 velocity;
-    Vec3 acceleration;
+   	Vec3 acceleration;
 	Vec3 force;
 	double radius;
 	double mass;
@@ -244,7 +244,7 @@ public:
 		origin = copy.origin;
 		/*topLeftFront = new Vec3(copy.origin->x - copy.halfDim->x,
 								copy.origin->y - copy.halfDim->y,
-								copy.origin->z - copy.halfDim->z);	 // min
+								copy.origin->z - copy.halfDim->z); // min
 		bottomRightBack = new Vec3(copy.origin->x + copy.halfDim->x, 
 								copy.origin->y + copy.halfDim->y,
 								copy.origin->z + copy.halfDim->z); // max*/
@@ -257,9 +257,11 @@ public:
 			delete children[i];
 		}
 	}
+	
 	// Getters
-    Octree** getChildren() { return children; }
-    OctreeNode* getData() { return data; }
+   	Octree** getChildren() { return children; }
+    	OctreeNode* getData() { return data; }
+	
 	/*int getAverageX()
 	{
 		return topLeftFront->x + bottomRightBack->x / 2;
@@ -478,57 +480,8 @@ public:
 		return numNodes;
 	}*/
 
-	// get information inside nodes
-	/*void checkNodes( Vec3& min, Vec3& max, vector<OctreeNode*>& nodes)
-	{
-		// if a leaf node, check the current data inside
-		if (isLeafNode())
-		{
-			if (data != nullptr)
-			{
-				Vec3* pos = data->getPosition();
-				Vec3* vel = data->getVelocity();
-				Vec3* frc = data->getForce();
-
-				// return if position out of bounds
-				if (pos.x < min.x || pos.y < min.y || pos.z < min.z)
-				{
-					return;
-				}
-				if (pos.x > max.x || pos.y > max.y || pos.z > max.z)
-				{
-					return;
-				}
-			}
-		}
-		else
-		{
-			// at interior node of the tree
-			for (int i = 0; i < 8; ++i)
-			{
-				// calculate min and max of child octant
-				Vec3 childMax = children[i]->origin + children[i]->halfDim;
-				Vec3 childMin = children[i]->origin - children[i]->halfDim;
-
-				// continue if outside child's bounds
-				if (childMax.x < min.x || childMax.y < min.y || childMax.z < min.z)
-				{
-					continue;
-				}
-				if (childMin.x > max.x || childMin.y > max.y || childMin.z > max.z)
-				{
-					continue;
-				}
-
-				// recursive loop once determined child is intersecting bounding box
-				children[i]->checkNodes(min, max, nodes);
-			}
-		}
-	}*/
-
 	void printOctree(int level)
 	{
-		//cout << "CHECK";
 		if (data)
 		{
 			cout << "Level " << level << ":" << endl;
@@ -548,16 +501,6 @@ public:
 			}
 		}
 	}
-
-	/*bool isInBounds(const Vec3& point, const Vec3& bmin, const Vec3& bmax) {
-		return
-			point.x >= bmin.x &&
-			point.y >= bmin.y &&
-			point.z >= bmin.z &&
-			point.x <= bmax.x &&
-			point.y <= bmax.y &&
-			point.z <= bmax.z;
-	}*/
 };
 
 /*
